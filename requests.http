@@ -1,0 +1,45 @@
+@baseURL= http://localhost:8000
+
+############### TEST #############
+GET {{baseURL}}/ping
+
+############ CATEGORY ############
+@categories = /categories
+
+### GET ALL
+GET {{baseURL}}{{categories}}
+
+### SEARCH
+GET {{baseURL}}{{categories}}/search?partial_name=lin
+
+### GET BY ID
+GET {{baseURL}}{{categories}}/2
+
+### CREATE 1
+POST {{baseURL}}{{categories}}
+Content-Type: application/json
+
+{
+    "name": "Git",
+    "description": "Version control for developing"
+}
+
+### CREATE 2
+POST {{baseURL}}{{categories}}
+Content-Type: application/json
+
+{
+    "name": "Linux",
+    "description": "Operating System"
+}
+
+### UPDATE
+PATCH {{baseURL}}{{categories}}/2
+Content-Type: application/json
+
+{
+    "description": "Best operating system"
+}
+
+### DELETE
+DELETE {{baseURL}}{{categories}}/2

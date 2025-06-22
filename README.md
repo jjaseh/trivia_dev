@@ -1,6 +1,6 @@
 # 🧠 TriviaDev — Programming Trivia API
 
-CodeTrivia is a toy backend project built to practice modern Python development.  
+TriviaDev is a toy backend project built to practice modern Python development.  
 It simulates a trivia game where users can answer questions about programming topics like Git, Python, Linux, Networking, and more.
 
 This project is part of a personal learning journey, inspired by the curriculum at [Boot.dev](https://boot.dev), and aims to apply skills related to:
