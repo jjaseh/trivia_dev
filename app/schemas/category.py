@@ -1,12 +1,13 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field, ConfigDict
+from typing import Optional, List
+from app.schemas.question import QuestionInCategory
 
 class CategoryBase(BaseModel):
-    name: str
+    name: str 
     description: Optional[str] = None
 
 class CategoryCreate(CategoryBase):
-    pass
+    name: str = Field(..., min_length=2)
 
 class CategoryUpdate(BaseModel):
     name: Optional[str] = None
@@ -14,3 +15,6 @@ class CategoryUpdate(BaseModel):
 
 class Category(CategoryBase):
     id: int
+    questions: List[QuestionInCategory] = []
+
+    model_config = ConfigDict(from_attributes=True)
