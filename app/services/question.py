@@ -1,17 +1,20 @@
 from typing import List, Optional
+from pydantic import BaseModel
 from sqlmodel import Session, select, func
 from app.models.question import Question as QuestionModel
-from app.schemas.question import Question, QuestionCreate, QuestionUpdate
+from app.schemas.question import Question, QuestionCreate, QuestionUpdate, QuestionWithAnswers
 from app.models.category import Category
 
 def get_all_questions(session: Session) -> List[Question]:
     db_questions = session.exec(select(QuestionModel)).all()
     return [Question.model_validate(q) for q in db_questions]
 
-def get_question_by_id(session: Session, id: int) -> Optional[Question]:
+def get_question_by_id(session: Session, id: int, include_answers: bool = False) -> Optional[BaseModel]:
     db_question = session.get(QuestionModel, id)
     if db_question is None:
         return None
+    if include_answers: 
+        return QuestionWithAnswers.model_validate(db_question)
     return Question.model_validate(db_question)
 
 def search_question(session: Session, partial_title: str) -> List[Question]:

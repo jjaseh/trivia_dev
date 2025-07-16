@@ -15,6 +15,10 @@ class CategoryUpdate(BaseModel):
 
 class Category(CategoryBase):
     id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class CategoryWithQuestions(CategoryBase):
     questions: List[QuestionInCategory] = []
 
     model_config = ConfigDict(from_attributes=True)

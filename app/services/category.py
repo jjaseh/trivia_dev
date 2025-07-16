@@ -1,17 +1,20 @@
+from pydantic import BaseModel
 from sqlmodel import Session, select
 from sqlalchemy import func
 from app.models.category import Category as CategoryModel
-from app.schemas.category import Category, CategoryCreate, CategoryUpdate
+from app.schemas.category import Category, CategoryCreate, CategoryUpdate, CategoryWithQuestions
 from typing import List, Optional
 
 def get_all_categories(session: Session) -> List[Category]:
     db_categories = session.exec(select(CategoryModel)).all()
     return [Category.model_validate(c) for c in db_categories]
 
-def get_category_by_id(session: Session, id: int) -> Optional[Category]:
+def get_category_by_id(session: Session, id: int, include_questions: bool = False) -> Optional[BaseModel]:
     db_category = session.get(CategoryModel, id)
     if db_category is None:
         return None
+    if include_questions:
+        return CategoryWithQuestions.model_validate(db_category)
     return Category.model_validate(db_category)
 
 def search_category(session: Session, partial_name: str) -> List[Category]:

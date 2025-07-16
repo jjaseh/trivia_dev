@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional
+from typing import Optional, List
+from app.schemas.answer import AnswerInQuestion
 
 class QuestionBase(BaseModel): 
     title: str = Field(..., min_length=10)
@@ -19,10 +20,12 @@ class QuestionUpdate(BaseModel):
 class QuestionInCategory(BaseModel):
     title: str
     difficulty: Optional[str] = None
-
     model_config = ConfigDict(from_attributes=True)
 
 class Question(QuestionBase):
     id: int
+    model_config = ConfigDict(from_attributes=True)
 
+class QuestionWithAnswers(QuestionBase):
+    answers: List[AnswerInQuestion] = []
     model_config = ConfigDict(from_attributes=True)

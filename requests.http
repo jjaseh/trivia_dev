@@ -14,10 +14,13 @@ GET {{baseURL}}/ping
 ##############################################################
 
 ### GET ALL
-GET {{categories}}
+GET {{categories}}/
 
 ### GET BY ID
 GET {{categories}}/1
+
+### GET BY ID WITH QUESTIONS
+GET {{categories}}/1?include_questions=true
 
 ### SEARCH
 GET {{categories}}/search?partial_name=lin
@@ -59,7 +62,10 @@ DELETE {{categories}}/2
 GET {{questions}}
 
 ### GET BY ID
-GET {{questions}}/2
+GET {{questions}}/1
+
+### GET BY ID WITH ANSWERS
+GET {{questions}}/1?include_answers=true
 
 ### SEARCH
 GET {{questions}}/search?partial_title=created
@@ -116,38 +122,55 @@ DELETE {{questions}}/3
 GET {{answers}}
 
 ### GET BY ID
-GET {{answers}}/2
+GET {{answers}}/1
 
 ### SEARCH
-GET {{answers}}/search?partial_title=created
+GET {{answers}}/search?partial_text=guido
 
-### CREATE 1.1
+### CREATE ONE
 POST {{answers}}
 Content-Type: application/json
 
 {
-    "title": "Who created Git?",
-    "difficulty": "easy",
-    "explanation": "Linus Torvalds created Git in 2005",
-    "category_id": 1
+    "text": "Guido van Rossum",
+    "is_correct": false,
+    "question_id": 1
 }
 
-### CREATE 1.2
+### CREATE MULTIPLE
+POST {{answers}}/bulk
+Content-Type: application/json
 
-
-### CREATE 1.3
-
-
-### CREATE 1.4
-
+[
+    {
+        "text": "Linus Torvalds",
+        "is_correct": true,
+        "question_id": 1
+    },
+    {
+        "text": "Dennis Ritchie",
+        "is_correct": false,
+        "question_id": 1
+    },
+    {
+        "text": "Guido van Rossum",
+        "is_correct": false,
+        "question_id": 1
+    },
+    {
+        "text": "Richard Stallman",
+        "is_correct": false,
+        "question_id": 1
+    }
+]
 
 ### UPDATE
-PATCH {{answers}}/2
+PATCH {{answers}}/1
 Content-Type: application/json
 
 {
-    "explanation": "Linus Torvalds created Linux in 1991"
+    "text": "Guido Van Rossum"
 }
 
 ### DELETE
-DELETE {{answers}}/3
+DELETE {{answers}}/1

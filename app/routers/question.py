@@ -1,9 +1,9 @@
-from typing import List
-from fastapi import APIRouter, HTTPException, status, Depends
+from typing import List, Union
+from fastapi import APIRouter, HTTPException, Query, status, Depends
 from app.database import get_session
 from sqlmodel import Session
 from app.services import question
-from app.schemas.question import Question, QuestionCreate, QuestionUpdate
+from app.schemas.question import Question, QuestionCreate, QuestionUpdate, QuestionWithAnswers
 
 router = APIRouter(
     prefix="/questions",
@@ -27,12 +27,13 @@ async def search(
         raise HTTPException(status_code=404, detail="No questions found")
     return results
 
-@router.get("/{id}", response_model=Question)
+@router.get("/{id}", response_model=Union[Question, QuestionWithAnswers])
 async def get_by_id(
     id: int, 
+    include_answers: bool = Query(False, description="Include answers in response"),
     session: Session = Depends(get_session)
 ):
-    result = question.get_question_by_id(session, id)
+    result = question.get_question_by_id(session, id, include_answers)
     if result is None:
         raise HTTPException(status_code=404, detail="Question not found")
     return result
@@ -57,7 +58,7 @@ async def update(
     try:
         updated_question = question.update_question(session, id, update_data)
         if updated_question is None:
-            raise HTTPException(status_code=404, detail="Category not found")
+            raise HTTPException(status_code=404, detail="Question not found")
         return updated_question
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -69,5 +70,5 @@ async def delete(
 ):
     success = question.delete_question(session, id)
     if not success:
-        raise HTTPException(status_code=404, detail="Category not found")
+        raise HTTPException(status_code=404, detail="Question not found")
     return {"message": "Deleted successfully"}

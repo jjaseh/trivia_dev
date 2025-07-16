@@ -1,9 +1,9 @@
-from typing import List
-from fastapi import APIRouter, HTTPException, status, Depends
+from typing import List, Union
+from fastapi import APIRouter, HTTPException, Query, status, Depends
 from app.database import get_session
 from sqlmodel import Session
 from app.services import category
-from app.schemas.category import Category, CategoryCreate, CategoryUpdate
+from app.schemas.category import Category, CategoryCreate, CategoryUpdate, CategoryWithQuestions
 
 router = APIRouter(
     prefix="/categories",
@@ -27,12 +27,13 @@ async def search(
         raise HTTPException(status_code=404, detail="No categories found")
     return results
 
-@router.get("/{id}", response_model=Category)
+@router.get("/{id}", response_model=Union[Category, CategoryWithQuestions])
 async def get_by_id(
     id: int, 
+    include_questions: bool = Query(False, description="Include questions in response"),
     session: Session = Depends(get_session)
 ):
-    result = category.get_category_by_id(session, id)
+    result = category.get_category_by_id(session, id, include_questions)
     if result is None:
         raise HTTPException(status_code=404, detail="Category not found")
     return result
