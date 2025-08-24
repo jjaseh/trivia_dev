@@ -26,7 +26,7 @@ GET {{categories}}/1?include_questions=true
 GET {{categories}}/search?partial_name=lin
 
 ### CREATE 1
-POST {{categories}}
+POST {{categories}}/
 Content-Type: application/json
 
 {
@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ### CREATE 2
-POST {{categories}}
+POST {{categories}}/
 Content-Type: application/json
 
 {
@@ -59,7 +59,7 @@ DELETE {{categories}}/2
 ##############################################################
 
 ### GET ALL
-GET {{questions}}
+GET {{questions}}/
 
 ### GET BY ID
 GET {{questions}}/1
@@ -71,7 +71,7 @@ GET {{questions}}/1?include_answers=true
 GET {{questions}}/search?partial_title=created
 
 ### CREATE 1
-POST {{questions}}
+POST {{questions}}/
 Content-Type: application/json
 
 {
@@ -82,7 +82,7 @@ Content-Type: application/json
 }
 
 ### CREATE 2
-POST {{questions}}
+POST {{questions}}/
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
 }
 
 ### CREATE 3
-POST {{questions}}
+POST {{questions}}/
 Content-Type: application/json
 
 {
@@ -119,7 +119,7 @@ DELETE {{questions}}/3
 ##############################################################
 
 ### GET ALL
-GET {{answers}}
+GET {{answers}}/
 
 ### GET BY ID
 GET {{answers}}/1
@@ -128,7 +128,7 @@ GET {{answers}}/1
 GET {{answers}}/search?partial_text=guido
 
 ### CREATE ONE
-POST {{answers}}
+POST {{answers}}/
 Content-Type: application/json
 
 {

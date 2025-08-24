@@ -20,11 +20,11 @@ This project is part of a personal learning journey, inspired by the curriculum 
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/your-username/code-trivia.git
-cd code-trivia
+git clone https://github.com/jjaseh/trivia_dev
+cd trivia_dev
 
 # 2. Create virtual environment
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # On Windows use: venv\Scripts\activate
 
 # 3. Install dependencies
